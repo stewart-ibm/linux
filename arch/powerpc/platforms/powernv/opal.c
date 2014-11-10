@@ -633,17 +633,9 @@ static void opal_ipmi_init(struct device_node *opal_node)
 			of_platform_device_create(np, NULL, NULL);
 }
 
-static int __init opal_init(void)
+static void opal_console_create_devs(void)
 {
 	struct device_node *np, *consoles;
-	const __be32 *irqs;
-	int rc, i, irqlen;
-
-	opal_node = of_find_node_by_path("/ibm,opal");
-	if (!opal_node) {
-		pr_warn("opal: Node not found\n");
-		return -ENODEV;
-	}
 
 	/* Register OPAL consoles if any ports */
 	if (firmware_has_feature(FW_FEATURE_OPALv2))
@@ -658,6 +650,21 @@ static int __init opal_init(void)
 		}
 		of_node_put(consoles);
 	}
+
+}
+
+static void opal_i2c_create_devs(void)
+{
+	struct device_node *np;
+
+	for_each_compatible_node(np, NULL, "ibm,power8-i2c-port")
+		of_platform_device_create(np, NULL, NULL);
+}
+
+static void opal_request_interrupts(void)
+{
+	const __be32 *irqs;
+	int rc, i, irqlen;
 
 	/* Find all OPAL interrupts and request them */
 	irqs = of_get_property(opal_node, "opal-interrupts", &irqlen);
@@ -678,6 +685,26 @@ static int __init opal_init(void)
 				   " (0x%x)\n", rc, irq, hwirq);
 		opal_irqs[i] = irq;
 	}
+}
+
+static int __init opal_init(void)
+{
+	int rc;
+
+	opal_node = of_find_node_by_path("/ibm,opal");
+	if (!opal_node) {
+		pr_warn("opal: Node not found\n");
+		return -ENODEV;
+	}
+
+	/* Create console platform devices */
+	opal_console_create_devs();
+
+	/* Create i2c platform devices */
+	opal_i2c_create_devs();
+
+	/* Register OPAL interrupts */
+	opal_request_interrupts();
 
 	/* Create "opal" kobject under /sys/firmware */
 	rc = opal_sysfs_init();
@@ -798,3 +825,5 @@ void opal_free_sg_list(struct opal_sg_list *sg)
 			sg = NULL;
 	}
 }
+
+EXPORT_SYMBOL_GPL(opal_i2c_request);
