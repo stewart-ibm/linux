@@ -660,7 +660,7 @@ static void opal_i2c_create_devs(void)
 {
 	struct device_node *np;
 
-	for_each_compatible_node(np, NULL, "ibm,power8-i2c-port")
+	for_each_compatible_node(np, NULL, "ibm,opal-i2c")
 		of_platform_device_create(np, NULL, NULL);
 }
 

@@ -212,7 +212,7 @@ static int i2c_opal_probe(struct platform_device *pdev)
 	adapter->algo_data = (void *)(unsigned long)opal_id;
 	adapter->dev.parent = &pdev->dev;
 	adapter->dev.of_node = of_node_get(pdev->dev.of_node);
-	pname = of_get_property(pdev->dev.of_node, "port-name", NULL);
+	pname = of_get_property(pdev->dev.of_node, "ibm,port-name", NULL);
 	if (pname)
 		strlcpy(adapter->name, pname, sizeof(adapter->name));
 	else
@@ -239,7 +239,7 @@ static int i2c_opal_remove(struct platform_device *pdev)
 
 static const struct of_device_id i2c_opal_of_match[] = {
 	{
-		.compatible = "ibm,power8-i2c-port",
+		.compatible = "ibm,opal-i2c",
 	},
 	{ }
 };
