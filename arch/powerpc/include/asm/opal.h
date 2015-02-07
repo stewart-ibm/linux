@@ -172,6 +172,7 @@ struct opal_sg_list {
 #define OPAL_FLASH_READ				110
 #define OPAL_FLASH_WRITE			111
 #define OPAL_FLASH_ERASE			112
+#define OPAL_PRD_MSG				113
 
 /* Device tree flags */
 
@@ -309,6 +310,8 @@ enum OpalMessageType {
 	OPAL_MSG_EPOW,
 	OPAL_MSG_SHUTDOWN,		/* params[0] = 1 reboot, 0 shutdown */
 	OPAL_MSG_HMI_EVT,
+	OPAL_MSG_DPO,
+	OPAL_MSG_PRD,
 	OPAL_MSG_TYPE_MAX,
 };
 
@@ -398,6 +401,42 @@ enum OpalEpowStatus {
 	OPAL_EPOW_UPS = 1,
 	OPAL_EPOW_OVER_AMBIENT_TEMP = 2,
 	OPAL_EPOW_OVER_INTERNAL_TEMP = 3
+};
+
+enum opal_prd_msg_type {
+	OPAL_PRD_MSG_TYPE_INIT = 0,	/* HBRT --> OPAL */
+	OPAL_PRD_MSG_TYPE_FINI,		/* HBRT --> OPAL */
+	OPAL_PRD_MSG_TYPE_ATTN,		/* HBRT <-- OPAL */
+	OPAL_PRD_MSG_TYPE_ATTN_ACK,	/* HBRT --> OPAL */
+	OPAL_PRD_MSG_TYPE_OCC_ERROR,	/* HBRT <-- OPAL */
+	OPAL_PRD_MSG_TYPE_OCC_RESET,	/* HBRT <-- OPAL */
+};
+
+struct opal_prd_msg {
+	uint8_t		type;
+	uint8_t		pad[3];
+	__be32		token;
+	union {
+		struct {
+			__be64	version;
+			__be64	ipoll;
+		} init;
+		struct {
+			__be64	proc;
+			__be64	ipoll_status;
+			__be64	ipoll_mask;
+		} attn;
+		struct {
+			__be64	proc;
+			__be64	ipoll_ack;
+		} attn_ack;
+		struct {
+			__be64	chip;
+		} occ_error;
+		struct {
+			__be64	chip;
+		} occ_reset;
+	};
 };
 
 /*
@@ -934,6 +973,7 @@ int64_t opal_ipmi_recv(uint64_t interface, struct opal_ipmi_msg *msg,
 		uint64_t *msg_len);
 int64_t opal_i2c_request(uint64_t async_token, uint32_t bus_id,
 			 struct opal_i2c_request *oreq);
+int64_t opal_prd_msg(struct opal_prd_msg *msg);
 
 int64_t opal_flash_read(uint64_t id, uint64_t offset, uint64_t buf,
 		uint64_t size, uint64_t token);
