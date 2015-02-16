@@ -399,8 +399,6 @@ static int parse_regions(void)
 					OPAL_PRD_RANGE_NAME_LEN - 1);
 			ranges[n].physaddr = addr;
 			ranges[n].size = size;
-			pr_info("Name %s addr 0x%016llx size 0x%016llx\n", ranges[n].name,
-					ranges[n].physaddr, ranges[n].size);
 			n++;
 		}
 	}
