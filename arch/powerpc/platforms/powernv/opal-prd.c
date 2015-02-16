@@ -26,6 +26,7 @@
 #include <linux/miscdevice.h>
 #include <linux/fs.h>
 #include <linux/of.h>
+#include <linux/poll.h>
 #include <linux/mm.h>
 #include <linux/slab.h>
 #include <asm/opal-prd.h>
@@ -115,6 +116,17 @@ static bool opal_msg_queue_empty(void)
 	spin_unlock_irqrestore(&opal_prd_msg_queue_lock, flags);
 
 	return ret;
+}
+
+static unsigned int opal_prd_poll(struct file *file,
+		struct poll_table_struct *wait)
+{
+	poll_wait(file, &opal_prd_msg_wait, wait);
+
+	if (!opal_msg_queue_empty())
+		return POLLIN | POLLRDNORM;
+
+	return 0;
 }
 
 static ssize_t opal_prd_read(struct file *file, char __user *buf,
@@ -267,6 +279,7 @@ static long opal_prd_ioctl(struct file *file, unsigned int cmd,
 struct file_operations opal_prd_fops = {
 	.open		= opal_prd_open,
 	.mmap		= opal_prd_mmap,
+	.poll		= opal_prd_poll,
 	.read		= opal_prd_read,
 	.write		= opal_prd_write,
 	.unlocked_ioctl	= opal_prd_ioctl,
