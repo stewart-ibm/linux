@@ -166,6 +166,9 @@ struct opal_sg_list {
 #define OPAL_IPMI_SEND				107
 #define OPAL_IPMI_RECV				108
 #define OPAL_I2C_REQUEST			109
+#define OPAL_FLASH_READ				110
+#define OPAL_FLASH_WRITE			111
+#define OPAL_FLASH_ERASE			112
 #define OPAL_PRD_MSG				113
 
 /* Device tree flags */
@@ -1028,6 +1031,13 @@ int64_t opal_i2c_request(uint64_t async_token, uint32_t bus_id,
 			 struct opal_i2c_request *oreq);
 int64_t opal_prd_msg(struct opal_prd_msg *msg);
 
+int64_t opal_flash_read(uint64_t id, uint64_t offset, uint64_t buf,
+		uint64_t size, uint64_t token);
+int64_t opal_flash_write(uint64_t id, uint64_t offset, uint64_t buf,
+		uint64_t size, uint64_t token);
+int64_t opal_flash_erase(uint64_t id, uint64_t offset, uint64_t size,
+		uint64_t token);
+
 /* Internal functions */
 extern int early_init_dt_scan_opal(unsigned long node, const char *uname,
 				   int depth, void *data);
@@ -1060,7 +1070,7 @@ extern int opal_set_rtc_time(struct rtc_time *tm);
 extern void opal_get_rtc_time(struct rtc_time *tm);
 extern unsigned long opal_get_boot_time(void);
 extern void opal_nvram_init(void);
-extern void opal_flash_init(void);
+extern void opal_flash_update_init(void);
 extern void opal_flash_term_callback(void);
 extern int opal_elog_init(void);
 extern void opal_platform_dump_init(void);
