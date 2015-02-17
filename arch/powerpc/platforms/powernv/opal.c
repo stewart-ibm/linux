@@ -736,7 +736,7 @@ static int __init opal_init(void)
 		/* Setup error log interface */
 		rc = opal_elog_init();
 		/* Setup code update interface */
-		opal_flash_init();
+		opal_flash_update_init();
 		/* Setup platform dump extract interface */
 		opal_platform_dump_init();
 		/* Setup system parameters interface */
@@ -787,6 +787,9 @@ void opal_shutdown(void)
 EXPORT_SYMBOL_GPL(opal_invalid_call);
 EXPORT_SYMBOL_GPL(opal_ipmi_send);
 EXPORT_SYMBOL_GPL(opal_ipmi_recv);
+EXPORT_SYMBOL_GPL(opal_flash_read);
+EXPORT_SYMBOL_GPL(opal_flash_write);
+EXPORT_SYMBOL_GPL(opal_flash_erase);
 
 /* Convert a region of vmalloc memory to an opal sg list */
 struct opal_sg_list *opal_vmalloc_to_sg_list(void *vmalloc_addr,
