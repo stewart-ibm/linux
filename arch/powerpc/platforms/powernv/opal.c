@@ -627,6 +627,15 @@ static void __init opal_dump_region_init(void)
 			"rc = %d\n", rc);
 }
 
+static void opal_flash_init(struct device_node *opal_node)
+{
+	struct device_node *np;
+
+	for_each_child_of_node(opal_node, np)
+		if (of_device_is_compatible(np, "ibm,opal-flash"))
+			of_platform_device_create(np, NULL, NULL);
+}
+
 static void opal_i2c_create_devs(void)
 {
 	struct device_node *np;
@@ -738,6 +747,8 @@ static int __init opal_init(void)
 
 	/* Initialize OPAL IPMI backend */
 	opal_ipmi_init(opal_node);
+
+	opal_flash_init(opal_node);
 
 	return 0;
 }
