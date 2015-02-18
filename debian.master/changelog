@@ -1,3 +1,9 @@
+linux (3.16.0-31.41-openpower1) utopic; urgency=medium
+
+  * Pull Openpower patches into utopic kernel
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Wed, 18 Feb 2015 16:02:14 +0800
+
 linux (3.16.0-31.41) utopic; urgency=low
 
   [ Seth Forshee ]
