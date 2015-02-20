@@ -1,3 +1,9 @@
+linux (3.16.0-31.41-openpower2) utopic; urgency=medium
+
+  * Sync opal message types with skiboot
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Fri, 20 Feb 2015 20:35:53 +0800
+
 linux (3.16.0-31.41-openpower1) utopic; urgency=medium
 
   * Pull Openpower patches into utopic kernel
