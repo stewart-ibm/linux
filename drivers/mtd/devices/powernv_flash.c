@@ -59,7 +59,7 @@ static int powernv_flash_async_op(struct mtd_info *mtd, enum flash_op op,
 {
 	struct powernv_flash *info = (struct powernv_flash *)mtd->priv;
 	struct device *dev = &mtd->dev;
-	uint64_t addr, token;
+	int token;
 	struct opal_msg msg;
 	int rc;
 
@@ -72,17 +72,15 @@ static int powernv_flash_async_op(struct mtd_info *mtd, enum flash_op op,
 		return -ENOMEM;
 	}
 
-	addr = (uint64_t)buf;
-
 	switch (op) {
 	case FLASH_OP_READ:
-		rc = opal_flash_read(info->id, offset, addr, len, token);
+		rc = opal_flash_read(info->id, offset, __pa(buf), len, token);
 		break;
 	case FLASH_OP_WRITE:
-		rc = opal_flash_write(info->id, offset, addr, len, token);
+		rc = opal_flash_write(info->id, offset, __pa(buf), len, token);
 		break;
 	case FLASH_OP_ERASE:
-		rc = opal_flash_erase(info->id, offset, len, token);
+		rc = opal_flash_erase(info->id, offset, __pa(buf), token);
 		break;
 	default:
 		BUG_ON(1);
