@@ -1,3 +1,9 @@
+linux (3.16.0-31.41-openpower4) utopic; urgency=medium
+
+  * MTD erase fix
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Tue, 24 Feb 2015 14:59:44 +0800
+
 linux (3.16.0-31.41-openpower3) utopic; urgency=medium
 
   * MTD driver fixes
