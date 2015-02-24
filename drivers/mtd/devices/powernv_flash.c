@@ -80,7 +80,7 @@ static int powernv_flash_async_op(struct mtd_info *mtd, enum flash_op op,
 		rc = opal_flash_write(info->id, offset, __pa(buf), len, token);
 		break;
 	case FLASH_OP_ERASE:
-		rc = opal_flash_erase(info->id, offset, __pa(buf), token);
+		rc = opal_flash_erase(info->id, offset, len, token);
 		break;
 	default:
 		BUG_ON(1);
