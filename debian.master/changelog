@@ -1,3 +1,9 @@
+linux (3.16.0-31.41-openpower5) utopic; urgency=medium
+
+  * Add graceful shutdown patch
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Wed, 25 Feb 2015 11:50:13 +0800
+
 linux (3.16.0-31.41-openpower4) utopic; urgency=medium
 
   * MTD erase fix
