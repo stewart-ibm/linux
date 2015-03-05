@@ -235,7 +235,7 @@ static inline void exit(void)
 
 
 #define BSS_STACK(size) \
-	static char _bss_stack[size]; \
+	static char __attribute__((__aligned__(128))) _bss_stack[size]; \
 	void *_platform_stack_top = _bss_stack + sizeof(_bss_stack);
 
 extern unsigned long timebase_period_ns;
