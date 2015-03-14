@@ -178,6 +178,8 @@ static ssize_t opal_prd_read(struct file *file, char __user *buf,
 		return -EFAULT;
 	}
 
+	kfree(item);
+
 	return size;
 }
 
@@ -452,6 +454,7 @@ static int __init opal_prd_init(void)
 static void __exit opal_prd_exit(void)
 {
 	misc_deregister(&opal_prd_dev);
+	opal_message_notifier_unregister(OPAL_MSG_PRD, &opal_prd_event_nb);
 }
 
 module_init(opal_prd_init);
