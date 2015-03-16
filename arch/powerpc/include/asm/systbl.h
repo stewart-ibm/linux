@@ -365,3 +365,6 @@ SYSCALL_SPU(renameat2)
 SYSCALL_SPU(seccomp)
 SYSCALL_SPU(getrandom)
 SYSCALL_SPU(memfd_create)
+SYSCALL(ni_syscall) /* sys_bpf */
+SYSCALL(ni_syscall) /* sys_execveat */
+PPC64ONLY(switch_endian)
