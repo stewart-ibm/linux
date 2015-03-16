@@ -205,6 +205,7 @@ static int __init powernv_flash_set_driver_info(struct device *dev,
 	mtd->_erase = powernv_flash_erase;
 	mtd->_read = powernv_flash_read;
 	mtd->_write = powernv_flash_write;
+	mtd->dev.parent = dev;
 	return 0;
 }
 
