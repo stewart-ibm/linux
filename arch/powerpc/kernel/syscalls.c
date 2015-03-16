@@ -135,3 +135,20 @@ void do_show_syscall_exit(unsigned long r3)
 {
 	printk(" -> %lx, current=%p cpu=%d\n", r3, current, smp_processor_id());
 }
+
+long sys_switch_endian(void)
+{
+	struct thread_info *ti;
+
+	current->thread.regs->msr ^= MSR_LE;
+
+	/*
+	 * Set TIF_RESTOREALL so that r3 isn't clobbered on return to
+	 * userspace. That also has the effect of restoring the non-volatile
+	 * GPRs, so we saved them on the way in here.
+	 */
+	ti = current_thread_info();
+	ti->flags |= _TIF_RESTOREALL;
+
+	return 0;
+}
