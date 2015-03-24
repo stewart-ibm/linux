@@ -1,3 +1,18 @@
+linux (3.16.0-31.41-openpower6) utopic; urgency=medium
+
+  * Cyril Bur (1):
+      drivers/mtd: set the powernv flash dev.parent
+
+  * Michael Ellerman (2):
+      powerpc: Add a proper syscall for switching endianness
+      selftests/powerpc: Add a test of the switch_endian() syscall
+
+  * Neelesh Gupta (1):
+      opal: Add message notifier unregister function
+      powerpc/powernv: Fix leaks in PRD cleanup path
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Tue, 24 Mar 2015 14:33:07 +0800
+
 linux (3.16.0-31.41-openpower5) utopic; urgency=medium
 
   * Add graceful shutdown patch
