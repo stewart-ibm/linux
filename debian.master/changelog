@@ -1,3 +1,11 @@
+linux (3.16.0-31.41-openpower7) utopic; urgency=medium
+
+  * Joel Stanley (2):
+      kernel/reboot.c: Add orderly_reboot for graceful reboot
+      powerpc/powernv: Reboot when requested by firmware
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Mon, 30 Mar 2015 14:08:59 +0800
+
 linux (3.16.0-31.41-openpower6) utopic; urgency=medium
 
   * Cyril Bur (1):
