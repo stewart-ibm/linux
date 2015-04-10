@@ -1,3 +1,10 @@
+linux (3.19.0-13.13-openpower1) vivid; urgency=medium
+
+  * Rebase OpenPower patches, drop those already merged
+  * Add OPAL call patches
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Fri, 10 Apr 2015 09:32:16 +0800
+
 linux (3.19.0-13.13) vivid; urgency=low
 
   [ Andy Whitcroft ]
