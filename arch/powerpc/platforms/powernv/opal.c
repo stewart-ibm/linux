@@ -639,12 +639,13 @@ static void __init opal_dump_region_init(void)
 			"rc = %d\n", rc);
 }
 
-static void opal_flash_init(struct device_node *opal_node)
+static void opal_pdev_init(struct device_node *opal_node,
+		const char *compatible)
 {
 	struct device_node *np;
 
 	for_each_child_of_node(opal_node, np)
-		if (of_device_is_compatible(np, "ibm,opal-flash"))
+		if (of_device_is_compatible(np, compatible))
 			of_platform_device_create(np, NULL, NULL);
 }
 
@@ -654,15 +655,6 @@ static void opal_i2c_create_devs(void)
 
 	for_each_compatible_node(np, NULL, "ibm,opal-i2c")
 		of_platform_device_create(np, NULL, NULL);
-}
-
-static void opal_ipmi_init(struct device_node *opal_node)
-{
-	struct device_node *np;
-
-	for_each_child_of_node(opal_node, np)
-		if (of_device_is_compatible(np, "ibm,opal-ipmi"))
-			of_platform_device_create(np, NULL, NULL);
 }
 
 static int kopald(void *unused)
@@ -757,10 +749,9 @@ static int __init opal_init(void)
 		opal_msglog_init();
 	}
 
-	/* Initialize OPAL IPMI backend */
-	opal_ipmi_init(opal_node);
-
-	opal_flash_init(opal_node);
+	/* Initialize platform devices: IPMI backend & flash interface */
+	opal_pdev_init(opal_node, "ibm,opal-ipmi");
+	opal_pdev_init(opal_node, "ibm,opal-flash");
 
 	return 0;
 }
