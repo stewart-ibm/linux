@@ -5,6 +5,7 @@
  * (C) Copyright IBM 2015
  *
  * Author: Vaidyanathan Srinivasan <svaidy at linux.vnet.ibm.com>
+ * Author: Jeremy Kerr <jk@ozlabs.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,33 +23,23 @@
 
 #include <linux/types.h>
 
-#define OPAL_PRD_VERSION		1
-#define OPAL_PRD_RANGE_NAME_LEN		32
-#define OPAL_PRD_MAX_RANGES		8
+#define OPAL_PRD_KERNEL_VERSION		1
 
 #define OPAL_PRD_GET_INFO		_IOR('o', 0x01, struct opal_prd_info)
-#define OPAL_PRD_SCOM_READ		_IOR('o', 0x10, struct opal_prd_scom)
-#define OPAL_PRD_SCOM_WRITE		_IOW('o', 0x11, struct opal_prd_scom)
+#define OPAL_PRD_SCOM_READ		_IOR('o', 0x02, struct opal_prd_scom)
+#define OPAL_PRD_SCOM_WRITE		_IOW('o', 0x03, struct opal_prd_scom)
 
 #ifndef __ASSEMBLY__
 
-struct opal_prd_range {
-	char		name[OPAL_PRD_RANGE_NAME_LEN];
-	__u64		physaddr;
-	__u64		size;
-};
-
 struct opal_prd_info {
-	__u64			version;
-	__u64			code_size;
-	struct opal_prd_range	ranges[OPAL_PRD_MAX_RANGES];
-
+	__u64	version;
 };
 
 struct opal_prd_scom {
 	__u64	chip;
 	__u64	addr;
 	__u64	data;
+	__s64	rc;
 };
 
 #endif /* __ASSEMBLY__ */

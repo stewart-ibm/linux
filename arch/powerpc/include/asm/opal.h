@@ -835,33 +835,13 @@ enum opal_prd_msg_type {
 	OPAL_PRD_MSG_TYPE_OCC_RESET,	/* RT <-- FW */
 };
 
-struct opal_prd_msg {
+struct opal_prd_msg_header {
+	uint16_t	size;
 	uint8_t		type;
-	uint8_t		pad[3];
-	__be32		token;
-	union {
-		struct {
-			__be64	version;
-			__be64	ipoll;
-		} init;
-		struct {
-			__be64	proc;
-			__be64	ipoll_status;
-			__be64	ipoll_mask;
-		} attn;
-		struct {
-			__be64	proc;
-			__be64	ipoll_ack;
-		} attn_ack;
-		struct {
-			__be64	chip;
-		} occ_error;
-		struct {
-			__be64	chip;
-		} occ_reset;
-	};
+	uint8_t		pad[1];
 };
 
+struct opal_prd_msg;
 
 /* /sys/firmware/opal */
 extern struct kobject *opal_kobj;
