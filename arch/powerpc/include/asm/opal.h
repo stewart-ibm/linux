@@ -827,41 +827,21 @@ struct opal_i2c_request {
 };
 
 enum opal_prd_msg_type {
-	OPAL_PRD_MSG_TYPE_INIT = 0,	/* RT --> FW */
-	OPAL_PRD_MSG_TYPE_FINI,		/* RT --> FW */
-	OPAL_PRD_MSG_TYPE_ATTN,		/* RT <-- FW */
-	OPAL_PRD_MSG_TYPE_ATTN_ACK,	/* RT --> FW */
-	OPAL_PRD_MSG_TYPE_OCC_ERROR,	/* RT <-- FW */
-	OPAL_PRD_MSG_TYPE_OCC_RESET,	/* RT <-- FW */
+	OPAL_PRD_MSG_TYPE_INIT = 0,	/* HBRT --> OPAL */
+	OPAL_PRD_MSG_TYPE_FINI,		/* HBRT/kernel --> OPAL */
+	OPAL_PRD_MSG_TYPE_ATTN,		/* HBRT <-- OPAL */
+	OPAL_PRD_MSG_TYPE_ATTN_ACK,	/* HBRT --> OPAL */
+	OPAL_PRD_MSG_TYPE_OCC_ERROR,	/* HBRT <-- OPAL */
+	OPAL_PRD_MSG_TYPE_OCC_RESET,	/* HBRT <-- OPAL */
 };
 
-struct opal_prd_msg {
+struct opal_prd_msg_header {
 	uint8_t		type;
-	uint8_t		pad[3];
-	__be32		token;
-	union {
-		struct {
-			__be64	version;
-			__be64	ipoll;
-		} init;
-		struct {
-			__be64	proc;
-			__be64	ipoll_status;
-			__be64	ipoll_mask;
-		} attn;
-		struct {
-			__be64	proc;
-			__be64	ipoll_ack;
-		} attn_ack;
-		struct {
-			__be64	chip;
-		} occ_error;
-		struct {
-			__be64	chip;
-		} occ_reset;
-	};
+	uint8_t		pad[1];
+	__be16		size;
 };
 
+struct opal_prd_msg;
 
 /* /sys/firmware/opal */
 extern struct kobject *opal_kobj;
