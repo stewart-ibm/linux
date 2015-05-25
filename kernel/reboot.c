@@ -306,7 +306,7 @@ void ctrl_alt_del(void)
 }
 
 char poweroff_cmd[POWEROFF_CMD_PATH_LEN] = "/sbin/poweroff";
-char reboot_cmd[POWEROFF_CMD_PATH_LEN] = "/sbin/reboot";
+static const char reboot_cmd[] = "/sbin/reboot";
 
 static int run_cmd(const char *cmd)
 {
@@ -347,7 +347,7 @@ static int __orderly_poweroff(bool force)
 {
 	int ret;
 
-	ret = run_cmd(reboot_cmd);
+	ret = run_cmd(poweroff_cmd);
 
 	if (ret && force) {
 		pr_warn("Failed to start orderly shutdown: forcing the issue\n");
@@ -380,12 +380,11 @@ static DECLARE_WORK(poweroff_work, poweroff_work_func);
  * This may be called from any context to trigger a system shutdown.
  * If the orderly shutdown fails, it will force an immediate shutdown.
  */
-int orderly_poweroff(bool force)
+void orderly_poweroff(bool force)
 {
 	if (force) /* do not override the pending "true" */
 		poweroff_force = true;
 	schedule_work(&poweroff_work);
-	return 0;
 }
 EXPORT_SYMBOL_GPL(orderly_poweroff);
 
@@ -402,10 +401,9 @@ static DECLARE_WORK(reboot_work, reboot_work_func);
  * This may be called from any context to trigger a system reboot.
  * If the orderly reboot fails, it will force an immediate reboot.
  */
-int orderly_reboot(void)
+void orderly_reboot(void)
 {
 	schedule_work(&reboot_work);
-	return 0;
 }
 EXPORT_SYMBOL_GPL(orderly_reboot);
 
