@@ -1,3 +1,21 @@
+linux (3.16.0-39.53-openpower9) utopic; urgency=medium
+
+  * Rebase openpower support to 3.16.0-39.53
+
+  * powerpc: Add PVR for POWER8NVL processor
+
+  * powerpc/powernv: Silence SYSPARAM warning on boot
+
+  * kernel/reboot: Fix orderly_reboot
+
+  * powerpc/powernv: only register log if OPAL supports doing so
+
+  * powerpc/powernv: only call OPAL_ELOG_RESEND if firmware supports it
+
+  * powerpc/powernv: only call OPAL_RESEND_DUMP if firmware supports it
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Thu, 28 May 2015 12:06:02 +0800
+
 linux (3.16.0-39.53) utopic; urgency=low
 
   [ Luis Henriques ]
