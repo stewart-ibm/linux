@@ -1,3 +1,9 @@
+linux (3.16.0-41.57-openpower12) utopic; urgency=medium
+
+  * powerpc/include: Add opal-prd to installed uapi headers
+
+ -- Jeremy Kerr <jk@ozlabs.org>  Thu, 18 Jun 2015 13:38:42 +0800
+
 linux (3.16.0-41.57) utopic; urgency=low
 
   [ Brad Figg ]
