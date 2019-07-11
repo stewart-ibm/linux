@@ -7,8 +7,8 @@ config PPC_POWERNV
 	select PPC_ICP_NATIVE
 	select PPC_XIVE_NATIVE
 	select PPC_P7_NAP
-	select FORCE_PCI
-	select PCI_MSI
+	select HAVE_PCI
+	select PCI_MSI if PCI
 	select EPAPR_BOOT
 	select PPC_INDIRECT_PIO
 	select PPC_UDBG_16550

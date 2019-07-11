@@ -158,7 +158,9 @@ static void __init pnv_init(void)
 	 * Initialize the LPC bus now so that legacy serial
 	 * ports can be found on it
 	 */
+#ifdef CONFIG_PCI
 	opal_lpc_init();
+#endif
 
 #ifdef CONFIG_HVC_OPAL
 	if (firmware_has_feature(FW_FEATURE_OPAL))
