@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: GPL-2.0
 obj-y			+= setup.o opal-call.o opal-wrappers.o opal.o opal-async.o
-obj-y			+= idle.o opal-rtc.o opal-nvram.o
+obj-y			+= opal-rtc.o opal-nvram.o
 obj-y			+= rng.o opal-elog.o opal-dump.o opal-sysparam.o opal-sensor.o
 obj-y			+= opal-msglog.o opal-hmi.o opal-power.o opal-irqchip.o
 obj-y			+= opal-kmsg.o
 
 pci64-$(CONFIG_PPC64) += opal-lpc.o
 
-obj-$(CONFIG_SMP)	+= smp.o subcore.o subcore-asm.o
+obj-$(CONFIG_SMP)	+= smp.o
+obj-$(CONFIG_POWERNV_SUBCORE) += subcore.o subcore-asm.o
 obj-$(CONFIG_PCI)	+= pci.o pci-ioda.o npu-dma.o pci-ioda-tce.o
 obj-$(CONFIG_CXL_BASE)	+= pci-cxl.o
 obj-$(CONFIG_EEH)	+= eeh-powernv.o
@@ -22,3 +23,4 @@ obj-$(CONFIG_OPAL_PSR) += opal-psr.o
 obj-$(CONFIG_OPAL_POWERCAP) += opal-powercap.o
 obj-$(CONFIG_OPAL_SENSOR_GROUPS) += opal-sensor-groups.o
 obj-$(CONFIG_OPAL_FLASH_UPDATE) += opal-flash.o
+obj-$(CONFIG_POWERNV_CPUIDLE) += idle.o

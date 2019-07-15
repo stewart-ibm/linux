@@ -159,6 +159,7 @@ static void wait_for_sync_step(int step)
 
 static void update_hid_in_slw(u64 hid0)
 {
+#ifdef CONFIG_POWERNV_CPUIDLE
 	u64 idle_states = pnv_get_supported_cpuidle_states();
 
 	if (idle_states & OPAL_PM_WINKLE_ENABLED) {
@@ -167,6 +168,7 @@ static void update_hid_in_slw(u64 hid0)
 
 		opal_slw_set_reg(cpu_pir, SPRN_HID0, hid0);
 	}
+#endif
 }
 
 static void unsplit_core(void)

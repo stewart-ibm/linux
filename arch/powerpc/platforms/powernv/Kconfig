@@ -5,7 +5,6 @@ config PPC_POWERNV
 	select PPC_NATIVE
 	select PPC_XICS
 	select PPC_ICP_NATIVE
-	select PPC_XIVE_NATIVE
 	select PPC_P7_NAP
 	select HAVE_PCI
 	select PCI_MSI if PCI
@@ -14,11 +13,19 @@ config PPC_POWERNV
 	select PPC_UDBG_16550
 	select PPC_SCOM
 	select ARCH_RANDOM
-	select CPU_FREQ
 	select PPC_DOORBELL
 	select MMU_NOTIFIER
 	select FORCE_SMP
 	default y
+
+config POWERNV_SUBCORE
+       bool 'Split core (subcore) support'
+       depends on POWERNV_CPUIDLE
+       default y if PPC_POWERNV
+       help
+         POWER8 cores can be 'split' so that multiple KVM guests can run
+	 on a core at a time. A core can be in one of three states,
+	 unsplit, 2-way split, and 4-way split.
 
 config OPAL_PRD
 	tristate 'OPAL PRD driver'
