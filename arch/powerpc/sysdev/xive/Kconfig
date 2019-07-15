@@ -1,14 +1,20 @@
 # SPDX-License-Identifier: GPL-2.0
 config PPC_XIVE
-	bool
+	bool 'Support for XIVE interrupt controller (POWER9 and later)'
+	default y if PPC_POWERNV
 	select PPC_SMP_MUXED_IPI
 	select HARDIRQS_SW_RESEND
 
 config PPC_XIVE_NATIVE
-	bool
+	bool 'Support for XIVE interrupt controller on powernv'
+	default y if PPC_POWERNV
 	select PPC_XIVE
 	depends on PPC_POWERNV
+	help
+          POWERNV platforms can use XIVE natively or XICS-on-XIVE emulation
+	  provided by OPAL firmware.
 
 config PPC_XIVE_SPAPR
-	bool
+	bool 'Support for XIVE interrupt controller on pseries'
 	select PPC_XIVE
+	help

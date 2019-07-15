@@ -28,7 +28,9 @@
 #include <asm/machdep.h>
 #include <asm/firmware.h>
 #include <asm/xics.h>
+#ifdef CONFIG_PPC_XIVE_NATIVE
 #include <asm/xive.h>
+#endif
 #include <asm/opal.h>
 #include <asm/kexec.h>
 #include <asm/smp.h>
@@ -172,8 +174,10 @@ static void __init pnv_init(void)
 
 static void __init pnv_init_IRQ(void)
 {
+#ifdef CONFIG_PPC_XIVE_NATIVE
 	/* Try using a XIVE if available, otherwise use a XICS */
 	if (!xive_native_init())
+#endif
 		xics_init();
 
 	WARN_ON(!ppc_md.get_irq);
@@ -343,9 +347,11 @@ static void pnv_kexec_cpu_down(int crash_shutdown, int secondary)
 {
 	u64 reinit_flags;
 
+#ifdef CONFIG_PPC_XIVE_NATIVE
 	if (xive_enabled())
 		xive_teardown_cpu();
 	else
+#endif
 		xics_kexec_teardown_cpu(secondary);
 
 	/* On OPAL, we return all CPUs to firmware */
@@ -364,10 +370,11 @@ static void pnv_kexec_cpu_down(int crash_shutdown, int secondary)
 		/* Primary waits for the secondaries to have reached OPAL */
 		pnv_kexec_wait_secondaries_down();
 
+#ifdef CONFIG_PPC_XIVE_NATIVE
 		/* Switch XIVE back to emulation mode */
 		if (xive_enabled())
 			xive_shutdown();
-
+#endif
 		/*
 		 * We might be running as little-endian - now that interrupts
 		 * are disabled, reset the HILE bit to big-endian so we don't
