@@ -47,3 +47,36 @@ config PPC_VAS
 	  VAS adapters are found in POWER9 based systems.
 
 	  If unsure, say N.
+
+config OPAL_PSR
+	tristate 'OPAL Power Shift Ratio sysfs interface'
+	depends on PPC_POWERNV
+	default y if PPC_POWERNV
+	help
+	  This enables the OPAL Power Shift Ratio (PSR) controls in sysfs.
+	  This lets an administrator tune what elements of a system are
+	  throttled in the event of power or thermal limits being hit.
+	  For example, you may prefer to throttle a CPU more than a GPU.
+
+config OPAL_POWERCAP
+	tristate 'OPAL Power Cap sysfs interface'
+	depends on PPC_POWERNV
+	default y if PPC_POWERNV
+	help
+	  This enables the OPAL Power Cap controls in sysfs.
+	  This lets an administrator tune the maximum amount of power a
+	  system is allowed to draw.
+
+config OPAL_SENSOR_GROUPS
+	tristate 'OPAL Sensor Groups'
+	depends on PPC_POWERNV
+	default y if PPC_POWERNV
+	help
+	  This enables OPAL Sensor Group controls.
+
+config OPAL_FLASH_UPDATE
+	tristate 'OPAL Flash Update (for FSP systems)'
+	depends on PPC_POWERNV
+	default y if PPC_POWERNV
+	help
+	  This enables flash update for IBM FSP based systems.

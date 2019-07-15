@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0
 obj-y			+= setup.o opal-call.o opal-wrappers.o opal.o opal-async.o
-obj-y			+= idle.o opal-rtc.o opal-nvram.o opal-flash.o
+obj-y			+= idle.o opal-rtc.o opal-nvram.o
 obj-y			+= rng.o opal-elog.o opal-dump.o opal-sysparam.o opal-sensor.o
 obj-y			+= opal-msglog.o opal-hmi.o opal-power.o opal-irqchip.o
-obj-y			+= opal-kmsg.o opal-powercap.o opal-psr.o opal-sensor-groups.o
+obj-y			+= opal-kmsg.o
 
 pci64-$(CONFIG_PPC64) += opal-lpc.o
 
@@ -18,3 +18,7 @@ obj-$(CONFIG_PERF_EVENTS) += opal-imc.o
 obj-$(CONFIG_PPC_MEMTRACE)	+= memtrace.o
 obj-$(CONFIG_PPC_VAS)	+= vas.o vas-window.o vas-debug.o
 obj-$(CONFIG_OCXL_BASE)	+= ocxl.o
+obj-$(CONFIG_OPAL_PSR) += opal-psr.o
+obj-$(CONFIG_OPAL_POWERCAP) += opal-powercap.o
+obj-$(CONFIG_OPAL_SENSOR_GROUPS) += opal-sensor-groups.o
+obj-$(CONFIG_OPAL_FLASH_UPDATE) += opal-flash.o

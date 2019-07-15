@@ -207,8 +207,10 @@ static void pnv_prepare_going_down(void)
 	 */
 	opal_event_shutdown();
 
+#ifdef CONFIG_OPAL_FLASH_UPDATE
 	/* Print flash update message if one is scheduled. */
 	opal_flash_update_print_message();
+#endif
 
 	smp_send_stop();
 

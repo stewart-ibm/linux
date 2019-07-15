@@ -945,8 +945,10 @@ static int __init opal_init(void)
 		opal_dump_region_init();
 		/* Setup error log interface */
 		rc = opal_elog_init();
+#ifdef CONFIG_OPAL_FLASH_UPDATE
 		/* Setup code update interface */
 		opal_flash_update_init();
+#endif
 		/* Setup platform dump extract interface */
 		opal_platform_dump_init();
 		/* Setup system parameters interface */
@@ -969,14 +971,20 @@ static int __init opal_init(void)
 	/* Initialise OPAL kmsg dumper for flushing console on panic */
 	opal_kmsg_init();
 
+#ifdef CONFIG_OPAL_POWERCAP
 	/* Initialise OPAL powercap interface */
 	opal_powercap_init();
+#endif
 
+#ifdef CONFIG_OPAL_PSR
 	/* Initialise OPAL Power-Shifting-Ratio interface */
 	opal_psr_init();
+#endif
 
+#ifdef CONFIG_OPAL_SENSOR_GROUPS
 	/* Initialise OPAL sensor groups */
 	opal_sensor_groups_init();
+#endif
 
 	/* Initialise OPAL Power control interface */
 	opal_power_control_init();
