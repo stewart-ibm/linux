@@ -267,7 +267,7 @@ compound_page_dtor * const compound_page_dtors[] = {
 #endif
 };
 
-int min_free_kbytes = 1024;
+int min_free_kbytes = 128;
 int user_min_free_kbytes = -1;
 #ifdef CONFIG_DISCONTIGMEM
 /*
@@ -7739,6 +7739,9 @@ int __meminit init_per_zone_wmark_min(void)
 	setup_min_slab_ratio();
 #endif
 
+	min_free_kbytes = 32;
+	lowmem_kbytes = 16;
+	printk("Min free kb %d\n", min_free_kbytes);
 	return 0;
 }
 core_initcall(init_per_zone_wmark_min)

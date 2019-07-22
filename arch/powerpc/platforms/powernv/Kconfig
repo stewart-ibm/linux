@@ -15,7 +15,6 @@ config PPC_POWERNV
 	select ARCH_RANDOM
 	select PPC_DOORBELL
 	select MMU_NOTIFIER
-	select FORCE_SMP
 	default y
 
 config POWERNV_SUBCORE

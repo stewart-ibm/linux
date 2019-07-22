@@ -617,6 +617,8 @@ static __modinit int add_sysfs_param(struct module_kobject *mk,
 			return -ENOMEM;
 	}
 
+	printk("Going to realloc %x\n", 			  sizeof(*mk->mp) +
+	       sizeof(mk->mp->attrs[0]) * (mk->mp->num + 1));
 	/* Enlarge allocations. */
 	new_mp = krealloc(mk->mp,
 			  sizeof(*mk->mp) +
@@ -627,6 +629,7 @@ static __modinit int add_sysfs_param(struct module_kobject *mk,
 	mk->mp = new_mp;
 
 	/* Extra pointer for NULL terminator */
+	printk("new_attrs %x\n",sizeof(mk->mp->grp.attrs[0]) * (mk->mp->num + 2));
 	new_attrs = krealloc(mk->mp->grp.attrs,
 			     sizeof(mk->mp->grp.attrs[0]) * (mk->mp->num + 2),
 			     GFP_KERNEL);

@@ -129,6 +129,7 @@ extern void __restore_cpu_e6500(void);
 
 static struct cpu_spec __initdata cpu_specs[] = {
 #ifdef CONFIG_PPC_BOOK3S_64
+#ifndef CONFIG_CPU_LITTLE_ENDIAN
 	{	/* PPC970 */
 		.pvr_mask		= 0xffff0000,
 		.pvr_value		= 0x00390000,
@@ -317,6 +318,8 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.oprofile_type		= PPC_OPROFILE_POWER4,
 		.platform		= "power6",
 	},
+#endif /* CONFIG_CPU_LITTLE_ENDIAN */
+#ifdef CONFIG_POWER9_CPU
 	{	/* 2.06-compliant processor, i.e. Power7 "architected" mode */
 		.pvr_mask		= 0xffffffff,
 		.pvr_value		= 0x0f000003,
@@ -351,6 +354,7 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check_early	= __machine_check_early_realmode_p8,
 		.platform		= "power8",
 	},
+#endif
 	{	/* 3.00-compliant processor, i.e. Power9 "architected" mode */
 		.pvr_mask		= 0xffffffff,
 		.pvr_value		= 0x0f000005,
@@ -367,6 +371,7 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.cpu_restore		= __restore_cpu_power9,
 		.platform		= "power9",
 	},
+#ifdef CONFIG_POWER9_CPU
 	{	/* Power7 */
 		.pvr_mask		= 0xffff0000,
 		.pvr_value		= 0x003f0000,
@@ -500,6 +505,7 @@ static struct cpu_spec __initdata cpu_specs[] = {
 		.machine_check_early	= __machine_check_early_realmode_p9,
 		.platform		= "power9",
 	},
+#endif
 	{	/* Power9 DD2.2 or later */
 		.pvr_mask		= 0xffff0000,
 		.pvr_value		= 0x004e0000,

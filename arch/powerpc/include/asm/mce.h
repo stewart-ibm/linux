@@ -195,7 +195,7 @@ struct mce_error_info {
 	bool			sync_error;
 };
 
-#define MAX_MC_EVT	100
+#define MAX_MC_EVT	1
 
 /* Release flags for get_mce_event() */
 #define MCE_EVENT_RELEASE	true

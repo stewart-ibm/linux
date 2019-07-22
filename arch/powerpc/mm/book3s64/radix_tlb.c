@@ -524,7 +524,6 @@ static bool mm_needs_flush_escalation(struct mm_struct *mm)
 	return false;
 }
 
-#ifdef CONFIG_SMP
 static void do_exit_flush_lazy_tlb(void *arg)
 {
 	struct mm_struct *mm = arg;
@@ -546,6 +545,7 @@ static void do_exit_flush_lazy_tlb(void *arg)
 	_tlbiel_pid(pid, RIC_FLUSH_ALL);
 }
 
+#ifdef CONFIG_SMP
 static void exit_flush_lazy_tlbs(struct mm_struct *mm)
 {
 	/*
@@ -663,7 +663,8 @@ void radix__flush_tlb_page(struct vm_area_struct *vma, unsigned long vmaddr)
 EXPORT_SYMBOL(radix__flush_tlb_page);
 
 #else /* CONFIG_SMP */
-#define radix__flush_all_mm radix__local_flush_all_mm
+#define __flush_all_mm(x,y) radix__local_flush_all_mm(x)
+#define exit_flush_lazy_tlbs(mm) do_exit_flush_lazy_tlb(mm)
 #endif /* CONFIG_SMP */
 
 void radix__flush_tlb_kernel_range(unsigned long start, unsigned long end)

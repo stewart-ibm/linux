@@ -9,7 +9,7 @@
  *    {engebret|bergner}@us.ibm.com 
  */
 
-#undef DEBUG
+#define DEBUG
 
 #include <stdarg.h>
 #include <linux/kernel.h>
@@ -59,7 +59,9 @@
 #include <mm/mmu_decl.h>
 
 #ifdef DEBUG
-#define DBG(fmt...) printk(KERN_ERR fmt)
+#include <asm/udbg.h>
+
+#define DBG(fmt...) udbg_printf(fmt)
 #else
 #define DBG(fmt...)
 #endif
@@ -691,8 +693,10 @@ void __init early_init_devtree(void *params)
 	DBG(" -> early_init_devtree(%px)\n", params);
 
 	/* Too early to BUG_ON(), do it by hand */
-	if (!early_init_dt_verify(params))
+	if (!early_init_dt_verify(params)) {
+		DBG("fuck\n");
 		panic("BUG: Failed verifying flat device tree, bad version?");
+	}
 
 #ifdef CONFIG_PPC_RTAS
 	/* Some machines might need RTAS info for debugging, grab it now. */
@@ -703,6 +707,7 @@ void __init early_init_devtree(void *params)
 	/* Some machines might need OPAL info for debugging, grab it now. */
 	of_scan_flat_dt(early_init_dt_scan_opal, NULL);
 #endif
+	DBG(" | earl opal \n");
 
 #ifdef CONFIG_FA_DUMP
 	/* scan tree to see if dump is active during last boot */
@@ -715,17 +720,24 @@ void __init early_init_devtree(void *params)
 	 */
 	of_scan_flat_dt(early_init_dt_scan_chosen_ppc, boot_command_line);
 
+	DBG(" | chosen\n");
+
 	/* Scan memory nodes and rebuild MEMBLOCKs */
 	of_scan_flat_dt(early_init_dt_scan_root, NULL);
+	DBG(" | dt_Scan\n");
 	of_scan_flat_dt(early_init_dt_scan_memory_ppc, NULL);
 
+	DBG(" -> parse_early\n");
 	parse_early_param();
+	DBG(" <- parse_early\n");
 
 	/* make sure we've parsed cmdline for mem= before this */
 	if (memory_limit)
 		first_memblock_size = min_t(u64, first_memblock_size, memory_limit);
+	DBG("first_memblock_size %px\n", (void*)first_memblock_size);
 	setup_initial_memory_limit(memstart_addr, first_memblock_size);
 	/* Reserve MEMBLOCK regions used by kernel, initrd, dt, etc... */
+	DBG("PHYSICAL_START %px klimit %px\n", (void*)PHYSICAL_START, (void*)__pa(klimit));
 	memblock_reserve(PHYSICAL_START, __pa(klimit) - PHYSICAL_START);
 	/* If relocatable, reserve first 32k for interrupt vectors etc. */
 	if (PHYSICAL_START > MEMORY_START)

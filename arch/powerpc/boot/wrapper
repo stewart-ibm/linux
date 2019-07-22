@@ -220,7 +220,7 @@ of)
     ;;
 pseries)
     platformo="$object/pseries-head.o $object/of.o $object/epapr.o"
-    link_address='0x4000000'
+    link_address='0x3000000'
     if [ "$format" != "elf32ppc" ]; then
 	link_address=
 	pie=-pie
@@ -336,7 +336,7 @@ treeboot-iss4xx-mpic)
     ;;
 epapr)
     platformo="$object/pseries-head.o $object/epapr.o $object/epapr-wrapper.o"
-    link_address='0x20000000'
+    link_address='0x400000'
     pie=-pie
     ;;
 mvme5100)

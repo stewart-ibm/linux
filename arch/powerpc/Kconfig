@@ -84,6 +84,7 @@ config PPC_WATCHDOG
 	bool
 	depends on HARDLOCKUP_DETECTOR
 	depends on HAVE_HARDLOCKUP_DETECTOR_ARCH
+	depends on SMP
 	default y
 	help
 	  This is a placeholder when the powerpc hardlockup detector
@@ -1161,6 +1162,10 @@ config PIN_TLB_TEXT
 	depends on PIN_TLB
 	default y
 endmenu
+
+config PPC_DRMEM
+       bool "Dynamic Reconfiguration Memory"
+       default y
 
 if PPC64
 # This value must have zeroes in the bottom 60 bits otherwise lots will break
